@@ -27,7 +27,7 @@ exports.validatePhone = function(phone)
 	if(phone == '' || phone == null)
 	  return false;
   
-  if(phone.length < 3 || !isNumber(phone))
+  if(phone.length < 17 )
 	  return false;
   else
 	  return true;

@@ -111,6 +111,10 @@ function BuildSubmitBtn(el)
 	let btn = document.createElement('input');
 	btn.setAttribute('type', 'submit');
 	el.appendChild(btn);
+	let msg = document.createElement('label');
+	msg.setAttribute('class', 'message');
+	msg.setAttribute('id', 'msg');
+	el.appendChild(msg);
 }
 
 function NameChangeHandler(e)
@@ -155,7 +159,7 @@ function showModal(e){
 	alert('');
 }
 
-function submitFeedback(e){
+async function submitFeedback(e){
 	e.preventDefault();
 	let name = document.querySelector('#nameId');
 	let mail = document.querySelector('#mailId');
@@ -167,15 +171,24 @@ function submitFeedback(e){
 		"phone": phone.value,
 		"comment": comment.value
 	};
-
-	var json = provider.Send(params);
-	
-	console.log('passed: ' + JSON.stringify(json));
+	const json = await provider.Send(params);
+	let mes = document.querySelector('#msg');
 	
 	if(json.status === 'success'){
 		name.value = '';
 		mail.value = '';
 		phone.value = '';
 		comment.value = '';
-	}	
+		
+		mes.innerHTML = json.msg;
+	}else{
+		let str = '';
+		
+		for (const key in json.fields) {
+			if(key)
+				str += `${key}: ${json.fields[key]}; `;
+		}
+		
+		mes.innerHTML = str;
+	}
 }

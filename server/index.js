@@ -35,9 +35,9 @@ app.post("/api/registration", (req, res) => {
 
 app.post("/api/sendfeedback", (req, res) => {
   var json;
-  let respObject;
+  let respObject = {};
   var data = '';
-  let fields = [];
+  let errsCount = 0;
   
   req.on('data', (chunk) => {
 	  data += chunk;
@@ -46,35 +46,49 @@ app.post("/api/sendfeedback", (req, res) => {
   req.on('end', () => {
 	  console.log('received ' + JSON.stringify(data));
 	  json = JSON.parse(data);
-	  
+
 	  if(!validator.validateName(json.name)){
-		 fields.push('name');
+		errsCount++;
+		let f = respObject.fields;
+		let nameErr = {name: 'invalid'};
+		const res = {...f, ...nameErr};
+		respObject.fields = res;
 	  }
+	  
 	  if(!validator.validateMail(json.mail))
 	  {
-		 fields.push('mail');
+		errsCount++;
+		let f = respObject.fields;
+		let mailErr = {mail: 'invalid'};
+		const res = {...f, ...mailErr};
+		respObject.fields = res;
 	  }
+	  
 	  if(!validator.validatePhone(json.phone)){
-		fields.push('phone');
+		errsCount++;
+		let f = respObject.fields;
+		let phoneErr = {phone: 'invalid'};
+		const res = {...f, ...phoneErr};
+		respObject.fields = res;
 	  }
 	  if(!validator.validateComment(json.comment))
 	  {
-		fields.push('comment');
+		errsCount++;
+		let f = respObject.fields;
+		let commentErr = {comment: 'invalid'};
+		const res = {...f, ...commentErr};
+		respObject.fields = res;
 	  }
 
-	  if(fields.length > 0){
-		  respObject = {
-			  status: 'error',
-			  fields: fields
-		  };
-		  console.log(respObject);
+	  if(errsCount > 0){
+		  respObject.status = 'error';
 		  res.statusCode = 400;
 		  res.send(respObject);
 	  }  
 	  else{
 		  respObject = {
 			  status: "success",
-			msg: "Ваша заявка успешно отправлена"
+			  msg: "Ваша заявка успешно отправлена"
 		  };
 		  console.log(respObject);
 		  res.statusCode = 201;
