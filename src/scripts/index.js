@@ -1,9 +1,47 @@
 import "../styles/style.scss";
 import IMASK from 'imask';
+import i18next from 'i18next';
 
 const validator = require('../scripts/inputValidator.js');
 const modal = require('../scripts/modal.js');
 const provider = require('../scripts/apiProvider.js');
+const i18n = i18next;
+i18n.init({
+  lng: "ru",
+  fallbackLng: 'en',
+  resources: {
+	en: {
+	  translation: {
+		yourName: 'Name',
+		mail: 'E-mail',
+		phone: 'Mobile',
+		comment: 'Message',
+		leaveFeedback: 'Live your feedback here',
+		developedBy: 'Developed by Mikhail Paulovich',
+		feedbackPage: 'Feebacks',
+		orderCall: 'Call me',
+		yes: 'Yes',
+		no: 'No',
+		areYouSure: 'Are you ready to discuss your impression by phone call?'
+	  },
+	},
+	ru: {
+	  translation: {
+		yourName: 'Имя',
+		mail: 'E-mail',
+		phone: 'Телефон',
+		comment: 'Сообщение',
+		leaveFeedback: 'Опишите ваши впечатления',
+		developedBy: 'Разработал Павлович Михаил',
+		feedbackPage: 'Отзывы',
+		orderCall: 'Позвоните мне',
+		areYouSure: 'Вы готовы обсудить впечатления по телефону?',
+		yes: 'Да',
+		no: 'Нет'
+	  },
+	},
+  },
+});
 
 function getFeedbackView()
 {
@@ -30,11 +68,11 @@ function buildHeader(el)
 	let container = document.createElement('div');
 	let header = document.createElement('h3');
 	header.setAttribute('class', 'view-header');
-	header.innerHTML = 'Your feedback';
+	header.innerHTML = i18n.t('feedbackPage');
 	container.appendChild(header);
 	let btn = document.createElement('button');
 	btn.setAttribute('class', 'corner-btn');
-	btn.innerText = 'Request a call';
+	btn.innerText = i18n.t('orderCall');
 	container.appendChild(btn);
 	el.appendChild(container);
 }
@@ -42,7 +80,7 @@ function buildHeader(el)
 function buildNameBlock(el)
 {
 	let lbl = document.createElement('label');
-	lbl.innerHTML = 'Your name';
+	lbl.innerHTML = i18n.t('yourName');
 	el.appendChild(lbl);
 	let inp = document.createElement('input');
 	inp.setAttribute('class', 'param-value');
@@ -58,7 +96,7 @@ function buildNameBlock(el)
 function buildMailBlock(el)
 {
 	let lbl = document.createElement('label');
-	lbl.innerHTML = 'Mail';
+	lbl.innerHTML = i18n.t('mail');
 	el.appendChild(lbl);
 	let inp = document.createElement('input');
 	inp.setAttribute('class', 'param-value');
@@ -74,7 +112,7 @@ function buildMailBlock(el)
 function buildPhoneBlock(el)
 {
 	let lbl = document.createElement('label');
-	lbl.innerHTML = 'Phone';
+	lbl.innerHTML = i18n.t('phone');
 	el.appendChild(lbl);
 	let inp = document.createElement('input');
 	inp.setAttribute('class', 'param-value');
@@ -91,7 +129,7 @@ function buildCommentBlock(el)
 {
 	let comment = document.createElement('textarea');
 	comment.setAttribute('class', 'comment');
-	comment.placeholder='Live your feedback here';
+	comment.placeholder=i18n.t('leaveFeedback');
 	el.appendChild(comment);
 	let warn = document.createElement('label');
 	warn.setAttribute('class', 'warning');
@@ -113,7 +151,7 @@ function buildSubmitBtn(el)
 function buildFooter(el){
 	let spn = document.createElement('span');
 	spn.setAttribute('class', 'input-block');
-	spn.innerText = 'Developed by Mikhail Paulovich';
+	spn.innerText = i18n.t('developedBy');
 	el.appendChild(spn);
 }
 
@@ -156,7 +194,10 @@ function commentChangeHandler(e){
 
 function showModal(e){
 	e.preventDefault();
-	modal.Show();
+	let question = i18n.t('areYouSure');
+	let yes = i18n.t('yes');
+	let no = i18n.t('no');
+	modal.Show(question, yes, no);
 }
 
 

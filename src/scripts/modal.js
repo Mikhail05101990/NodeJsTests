@@ -1,6 +1,6 @@
 const apiUrl = "http://localhost:9090/api/sendfeedback";
 
-exports.Show = function(){
+exports.Show = function(question, yes, no){
 	const Y = window.scrollY;
 	const X = window.scrollX;
 	const modal = document.createElement('div');
@@ -8,15 +8,15 @@ exports.Show = function(){
 	let child = document.createElement('div');
 	child.setAttribute('class', 'input-block');
 	let text = document.createElement('span');
-	text.innerHTML = 'Would you mind a call to clear your proposals?';
+	text.innerHTML = question;
 	text.setAttribute('class', 'modal-text');
 	child.appendChild(text);
 	let leftBtn = document.createElement('button');
-	leftBtn.innerText = 'Yes';
+	leftBtn.innerText = yes;
 	leftBtn.setAttribute('id', 'modalYes');
 	child.appendChild(leftBtn);
 	let rightBtn = document.createElement('button');
-	rightBtn.innerText = 'No';
+	rightBtn.innerText = no;
 	rightBtn.setAttribute('id', 'modalNo');
 	child.appendChild(rightBtn);
 	modal.appendChild(child);
