@@ -4,7 +4,7 @@ exports.Show = function(){
 	const Y = window.scrollY;
 	const X = window.scrollX;
 	const modal = document.createElement('div');
-	modal.setAttribute('class', 'modal');
+	modal.setAttribute('class', 'modal grow');
 	let child = document.createElement('div');
 	child.setAttribute('class', 'input-block');
 	let text = document.createElement('span');

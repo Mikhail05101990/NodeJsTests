@@ -78,3 +78,18 @@ button {
 form {
   padding-bottom: 70%;
 }
+
+.grow {
+  animation-name: grow;
+  animation-duration: 3s;
+}
+
+@keyframes grow {
+  from {
+    opacity: 0%;
+  }
+
+  to {
+    opacity: 100%;
+  }
+}
