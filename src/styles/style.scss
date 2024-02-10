@@ -1,0 +1,46 @@
+$param-title-width: 100%;
+
+.input-block {
+  min-width: 200px;
+  max-width: 400px;
+  margin: auto;
+}
+
+.input-block label {
+  width: $param-title-width;
+  display: inline-block;
+  left: 0;
+  padding-top: 20px;
+}
+
+.input-block input {
+  width: $param-title-width;
+  display: inline-block;
+  float: left;
+}
+
+.view-header {
+  font-weight: bold;
+}
+
+.warning {
+  color: red;
+}
+
+.corner-btn{
+  float:right;
+}
+
+.comment {
+  width: 100%;
+  min-height: 50px;
+}
+
+input[type='submit'] {
+	width: 100px;
+	margin: auto;
+}
+
+button {
+  width: 100px;
+}
