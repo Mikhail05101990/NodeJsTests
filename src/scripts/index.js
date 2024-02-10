@@ -2,6 +2,7 @@ import "../styles/style.scss";
 import IMASK from 'imask';
 
 const validator = require('../scripts/inputValidator.js');
+const modal = require('../scripts/modal.js');
 const provider = require('../scripts/apiProvider.js');
 
 function getFeedbackView()
@@ -10,29 +11,21 @@ function getFeedbackView()
 	el.setAttribute('class', 'input-block');
 	el.setAttribute('method', 'post');
 	el.setAttribute('action', 'http://localhost:9090/api/sendfeedback');
-	BuildHeader(el);
-	BuildNameBlock(el);
-	BuildMailBlock(el);
-	BuildPhoneBlock(el);
-	BuildCommentBlock(el);
-	BuildSubmitBtn(el);
-
+	buildHeader(el);
+	buildNameBlock(el);
+	buildMailBlock(el);
+	buildPhoneBlock(el);
+	buildCommentBlock(el);
+	buildSubmitBtn(el);
+	buildFooter(el);
+	
 	return el;
 }
 
 document.body.appendChild(getFeedbackView());
-document.querySelector('#nameId').addEventListener('change', NameChangeHandler);
-document.querySelector('#mailId').addEventListener('change', MailChangeHandler);
-let phoneInput = document.querySelector("#phoneId");
-const phoneMask = new IMASK(phoneInput, {
-  mask: "+{375}(00)000-00-00",
-});
-document.querySelector('#phoneId').addEventListener('change', PhoneChangeHandler);
-document.querySelector('textarea').addEventListener('change', CommentChangeHandler);
-document.querySelector('button').addEventListener('click', showModal);
-document.querySelector('[type="submit"]').addEventListener('click', submitFeedback);
+registerListeners();
 
-function BuildHeader(el)
+function buildHeader(el)
 {
 	let container = document.createElement('div');
 	let header = document.createElement('h3');
@@ -41,12 +34,12 @@ function BuildHeader(el)
 	container.appendChild(header);
 	let btn = document.createElement('button');
 	btn.setAttribute('class', 'corner-btn');
-	btn.innerText = 'Info';
+	btn.innerText = 'Request a call';
 	container.appendChild(btn);
 	el.appendChild(container);
 }
 
-function BuildNameBlock(el)
+function buildNameBlock(el)
 {
 	let lbl = document.createElement('label');
 	lbl.innerHTML = 'Your name';
@@ -62,7 +55,7 @@ function BuildNameBlock(el)
 	el.appendChild(warn);
 }
 
-function BuildMailBlock(el)
+function buildMailBlock(el)
 {
 	let lbl = document.createElement('label');
 	lbl.innerHTML = 'Mail';
@@ -78,7 +71,7 @@ function BuildMailBlock(el)
 	el.appendChild(warn);
 }
 
-function BuildPhoneBlock(el)
+function buildPhoneBlock(el)
 {
 	let lbl = document.createElement('label');
 	lbl.innerHTML = 'Phone';
@@ -94,7 +87,7 @@ function BuildPhoneBlock(el)
 	el.appendChild(warn);
 }
 
-function BuildCommentBlock(el)
+function buildCommentBlock(el)
 {
 	let comment = document.createElement('textarea');
 	comment.setAttribute('class', 'comment');
@@ -106,7 +99,7 @@ function BuildCommentBlock(el)
 	el.appendChild(warn);
 }
 
-function BuildSubmitBtn(el)
+function buildSubmitBtn(el)
 {
 	let btn = document.createElement('input');
 	btn.setAttribute('type', 'submit');
@@ -117,7 +110,14 @@ function BuildSubmitBtn(el)
 	el.appendChild(msg);
 }
 
-function NameChangeHandler(e)
+function buildFooter(el){
+	let spn = document.createElement('span');
+	spn.setAttribute('class', 'input-block');
+	spn.innerText = 'Developed by Mikhail Paulovich';
+	el.appendChild(spn);
+}
+
+function nameChangeHandler(e)
 {
 	document.querySelector('#nameId').value = e.target.value;
 	
@@ -127,7 +127,7 @@ function NameChangeHandler(e)
 		document.querySelector('#warnName').innerText = 'Invalid value';
 }
 
-function MailChangeHandler(e){
+function mailChangeHandler(e){
 	document.querySelector('#mailId').value = e.target.value;
 	
 	if(validator.validateMail(e.target.value))
@@ -136,7 +136,7 @@ function MailChangeHandler(e){
 		document.querySelector('#warnMail').innerText = 'Invalid value';
 }
 
-function PhoneChangeHandler(e){
+function phoneChangeHandler(e){
 	document.querySelector('#phoneId').value = e.target.value;
 	
 	if(phoneMask.masked.isComplete)
@@ -145,7 +145,7 @@ function PhoneChangeHandler(e){
 		document.querySelector('#warnPhone').innerText = 'Invalid value';
 }
 
-function CommentChangeHandler(e){
+function commentChangeHandler(e){
 	document.querySelector('textarea').value = e.target.value;
 	
 	if(validator.validateComment(e.target.value))
@@ -156,8 +156,10 @@ function CommentChangeHandler(e){
 
 function showModal(e){
 	e.preventDefault();
-	alert('');
+	modal.Show();
 }
+
+
 
 async function submitFeedback(e){
 	e.preventDefault();
@@ -191,4 +193,17 @@ async function submitFeedback(e){
 		
 		mes.innerHTML = str;
 	}
+}
+
+function registerListeners(){
+	document.querySelector('#nameId').addEventListener('change', nameChangeHandler);
+	document.querySelector('#mailId').addEventListener('change', mailChangeHandler);
+	let phoneInput = document.querySelector("#phoneId");
+	const phoneMask = new IMASK(phoneInput, {
+	  mask: "+{375}(00)000-00-00",
+	});
+	document.querySelector('#phoneId').addEventListener('change', phoneChangeHandler);
+	document.querySelector('textarea').addEventListener('change', commentChangeHandler);
+	document.querySelector('button').addEventListener('click', showModal);
+	document.querySelector('[type="submit"]').addEventListener('click', submitFeedback);
 }

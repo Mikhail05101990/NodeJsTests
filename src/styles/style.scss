@@ -49,3 +49,32 @@ button {
   color: green;
   padding-top: 40px;
 }
+
+.modal {
+  text-align: center;
+  top: 20%;
+  left: 20%;
+  right:20%;
+  color: white;
+  height: 300px;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 20px;
+}
+
+.modal-text{
+  margin: auto;
+  width:  100%;
+}
+
+.modal div{
+  padding-top: 10%;
+}
+
+.modal button{
+  margin-top: 10%;
+}
+
+form {
+  padding-bottom: 70%;
+}
