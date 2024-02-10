@@ -224,6 +224,9 @@ async function submitFeedback(e){
 		comment.value = '';
 		
 		mes.innerHTML = json.msg;
+		
+		mes.classList.add('message');
+		mes.classList.remove('warning');
 	}else{
 		let str = '';
 		
@@ -233,6 +236,9 @@ async function submitFeedback(e){
 		}
 		
 		mes.innerHTML = str;
+		
+		mes.classList.add('warning');
+		mes.classList.remove('message');
 	}
 }
 
